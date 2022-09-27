@@ -4,7 +4,7 @@ from pytesseract import Output
 import cv2
 import matplotlib.pyplot as plt
 
-path = './images/white.png'
+path = './images/opencs.png'
 image = cv2.imread(path)
 rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -30,6 +30,10 @@ for i in range(0, len(result["text"])):
         text = "".join([c if ord(c)<128 else "" for c in text]).strip()
         cv2.rectangle(rgb_image, (x,y), (x + w, y + h), (0,255, 0), 2)
         cv2.putText(rgb_image, text,(x,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,200),2)
-    
-#cv2.imshow('custom window name', rgb_image)
-#cv2.waitKey(1000)
+
+
+cv2.imshow('custom window name', rgb_image)
+
+cv2.namedWindow('frame2', flags=cv2.WINDOW_GUI_NORMAL)
+
+cv2.waitKey(10000)
