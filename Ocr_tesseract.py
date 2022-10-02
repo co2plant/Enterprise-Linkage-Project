@@ -3,11 +3,16 @@ import cv2, pytesseract
 import win32gui, win32ui, win32con
 import Translate, Overlay
 import Overlay,time,Quick,tkinter
+from googletrans import Translator
 
 from pyparsing import nullDebugAction
 from pytesseract import Output
 from asyncio.windows_events import NULL
 from hashlib import new
+
+translator = Translator()
+main = tkinter.Tk()
+a=Overlay.Overlay(main)
 
 w = 1920
 h = 1080
@@ -32,12 +37,6 @@ texts = pytesseract.image_to_string(screenshot, lang='kor+eng')
 result = pytesseract.image_to_data(screenshot, lang='kor+eng', output_type=Output.DICT) #테서렉트에서 좌표값 뽑아옴.
 
 print(texts)
-print("------------------")
-print(result)
-print("------------------")
-
-main = tkinter.Tk()
-a=Overlay.Overlay(main)
 
 for i in range(1, len(result["text"])):
     x = result["left"][i]
@@ -49,11 +48,12 @@ for i in range(1, len(result["text"])):
     text = result["text"][i]
     conf = int(result["conf"][i])
     
-    tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
-    print(tmptext)
+    
     # while y++, until another cracter is come
     if(conf>70):
-        a.labeler(tmptext,x,y, (int)(w/2))
+        tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
+        #realtext = translator.translate(tmptext, dest='en', src='ko')
+        a.labeler(tmptext,x,y)
         tmptext = NULL
         #tmptext = Translate.Trans(tmptext, eng, kor)
         
