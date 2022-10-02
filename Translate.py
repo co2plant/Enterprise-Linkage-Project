@@ -1,6 +1,10 @@
 import os
 import sys
 import urllib.request,json
+
+# Author : zsz153
+# Naver papago translator API
+
 client_id = "vJTrCnvRmexX3WFt1YqR"
 client_secret = "nKpbRHRW0r"
 

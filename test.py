@@ -2,6 +2,9 @@ from asyncio.windows_events import NULL
 from hashlib import new
 import Overlay,time,Quick,tkinter
 from Translate import Trans
+
+# Author : zsz153
+
 def keyPressHandler(event):
         if event.keycode == 112:
             a = Overlay.Overlay(main)
