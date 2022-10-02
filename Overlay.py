@@ -23,9 +23,3 @@ class Overlay():
         self.win.destroy()
     def start(self):
         self.win.mainloop()
-
-    def after_test(self):
-        for i in range(1,5):
-            self.labeler(str(i),i*100,i*100)
-            time.sleep(0.5)
-        self.win.after(100,self.win.after_test)
