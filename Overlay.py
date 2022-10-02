@@ -1,9 +1,9 @@
-import tkinter, win32api, win32con, pywintypes,time
+import tkinter, win32api, win32con, pywintypes
 from win32api import GetSystemMetrics
 
 class Overlay():
-    def __init__(self):
-        self.win = tkinter.Tk() #윈도우 객체 생성
+    def __init__(self,window):
+        self.win = tkinter.Toplevel(window) #윈도우 객체 생성
         self.win.config(bg = '#add123') #윈도우 백그라운드 컬러 설정
         self.win.wm_attributes('-transparentcolor','#add123') # 설정한 컬러 투명화
         self.win.attributes("-fullscreen", True) # 전체화면
@@ -23,3 +23,7 @@ class Overlay():
         self.win.destroy()
     def start(self):
         self.win.mainloop()
+
+
+
+
