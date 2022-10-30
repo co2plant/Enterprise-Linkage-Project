@@ -5,6 +5,7 @@ import os
 import pytesseract
 import matplotlib.pyplot as plt
 import time, tkinter
+import translate
 
 from overlay import Overlay
 from asyncio.windows_events import NULL
@@ -64,31 +65,35 @@ def translated_overlay_on():
             text = result_text["text"][i]
             
             text = "".join([c if ord(c)<128 else "" for c in text]).strip()
+            translated_text = translate.GetTranslate(text, 'en', 'ko')
             #cv2.rectangle(rgb_image, (x,y), (x + w, y + h), (0,255, 0), 2)
             #cv2.putText(rgb_image, text,(x,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,200),2)
-            overlay_screen.labeler(text, result_text["left"][i], result_text["top"][i], result_text["width"][i], result_text["height"][i])
+            overlay_screen.labeler(translated_text, result_text["left"][i], result_text["top"][i], result_text["width"][i], result_text["height"][i])
             
             
     #rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)
     #cv.imshow('Computer Vision', result_image)
     
 #--------------------------------------------------------------------   
+
+
+    
+#while(True):
+    #statuswindow = caps.get_screen_minimize()
+    #if(statuswindow == 1):
+screenshot = caps.get_screenshot()
+result_text = trocr.Get_Ocr_Tesseract(screenshot)
 frame1 = tkinter.Tk()
 button1 = tkinter.Button(frame1, text = 'Overlay', background='white')
 button1.pack()
 button1.config(command=button1_pressed)
-frame1.mainloop()   
+frame1.mainloop()
         
-while(True):
-    statuswindow = caps.get_screen_minimize()
-    if(statuswindow == 1):
-        screenshot = caps.get_screenshot()
-        result_text = trocr.Get_Ocr_Tesseract(screenshot)
 
     
         
-    print('FPS {}', format(1/(time.time()-loop_time)))
-    loop_time = time.time()
+    #print('FPS {}', format(1/(time.time()-loop_time)))
+    #loop_time = time.time()
     
 
 
