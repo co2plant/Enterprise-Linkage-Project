@@ -1,7 +1,7 @@
 import numpy as np
 import cv2, pytesseract
 import win32gui, win32ui, win32con
-import Translate, Overlay
+import Translate
 import Overlay,time,Quick,tkinter
 from googletrans import Translator
 

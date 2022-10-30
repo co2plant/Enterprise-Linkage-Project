@@ -10,7 +10,7 @@ import Translate, Overlay
 
 from asyncio.windows_events import NULL
 from hashlib import new
-import Overlay,time,Quick,tkinter
+import time,Quick,tkinter
 
 
 w = 1920
