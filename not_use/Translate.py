@@ -1,16 +1,14 @@
 import os
 import sys
-import urllib.request,json
-
-# Author : zsz153
-# Naver papago translator API
+import urllib.request
+import json
 
 client_id = "vJTrCnvRmexX3WFt1YqR"
 client_secret = "nKpbRHRW0r"
 
-def Trans(text,s,t): #텍스트,원어,번역언어
-    encText = urllib.parse.quote(text)
-    data = "source="+s+"&target="+t+"&text=" + encText
+def GetTranslate(inputtext, native_language, target_language):
+    encText = urllib.parse.quote(inputtext)
+    data = "source"+native_language+"&target="+target_language+"&text="+encText
     url = "https://openapi.naver.com/v1/papago/n2mt"
     request = urllib.request.Request(url)
     request.add_header("X-Naver-Client-Id",client_id)
