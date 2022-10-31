@@ -25,9 +25,9 @@ caps = Capture(window_name)
 ocrs = Tesseract_Ocr()
 
 looptime = time.time()
+
 #------------------------------variable------------------------------
 
-global overlay_screen
 #--------------------------------------------------------------------
 #--------------------------------------------------------------------
 
@@ -39,13 +39,13 @@ def button1_pressed():
         overlay_screen = Overlay(frame1)
 
 #--------------------------------------------------------------------
+
 #--------------------------------------------------------------------
 
 def while_loop():
     screenshot = caps.get_screenshot()
     result = ocrs.Get_Ocr_Tesseract(screenshot)
-
-
+    #overlay_screen_1 = Overlay(frame1)
     for i in range(1, len(result["text"])):
         w = result["width"][i]
         h = result["height"][i]
@@ -57,9 +57,10 @@ def while_loop():
         if(conf>70):
             tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
             # realtext = translator.translate(tmptext, dest='ko', src='en')
-            overlay_screen.labeler(tmptext,result["left"][i],result["top"][i])
+            overlay_screen_1.labeler(tmptext,result["left"][i],result["top"][i])
             #tmptext = NULL
             #tmptext = Translate.Trans(tmptext, eng, kor)
+    canvas.update_idletasks()
     frame1.after(1000,while_loop)
     
 
@@ -70,7 +71,8 @@ def while_loop():
 
 
 frame1 = tkinter.Tk()
-overlay_screen = Overlay(frame1)
+canvas=tkinter.Canvas(frame1, relief="solid", bd=2)
+overlay_screen_1 = Overlay(canvas)
 #button1 = tkinter.Button(frame1, text = 'Start OCR', background='white')
 #button1.pack()
 #button1.config(command=button1_pressed)
