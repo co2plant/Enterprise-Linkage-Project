@@ -2,7 +2,7 @@ import tkinter, win32api, win32con, pywintypes
 from win32api import GetSystemMetrics
 
 class Overlay():
-    
+
     def __init__(self,window):
         self.win = tkinter.Toplevel(window) #윈도우 객체 생성
         self.win.config(bg = '#add123') #윈도우 백그라운드 컬러 설정
@@ -23,7 +23,23 @@ class Overlay():
         exStyle = win32con.WS_EX_COMPOSITED | win32con.WS_EX_LAYERED | win32con.WS_EX_NOACTIVATE | win32con.WS_EX_TOPMOST | win32con.WS_EX_TRANSPARENT # 클릭무시 222
         win32api.SetWindowLong(hWindow, win32con.GWL_EXSTYLE, exStyle) #클릭 무시 3333
 
+    def return_to_window(self):
+        return self.win
+
     def stop(self):
         self.win.destroy()
+
     def start(self):
         self.win.mainloop()
+
+    def clone(widget):
+        parent = widget.nametowidget(widget.winfo_parent())
+        cls = widget.__class__
+
+        clone = cls(parent)
+        for key in widget.configure():
+            clone.configure({key: widget.cget(key)})
+        return clone
+
+    def cloneing(self,window):
+        self.win = self.clone(window)

@@ -8,7 +8,7 @@ client_secret = "nKpbRHRW0r"
 
 def GetTranslate(inputtext, native_language, target_language):
     encText = urllib.parse.quote(inputtext)
-    data = "source"+native_language+"&target="+target_language+"&text="+encText
+    data = "source="+native_language+"&target="+target_language+"&text="+encText
     url = "https://openapi.naver.com/v1/papago/n2mt"
     request = urllib.request.Request(url)
     request.add_header("X-Naver-Client-Id",client_id)
