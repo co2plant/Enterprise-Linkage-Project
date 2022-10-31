@@ -64,9 +64,14 @@ def while_loop():
         
         if(conf>90):
             tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
+<<<<<<< HEAD
             # realtext = translator.translate(tmptext, dest='ko', src='en')
             arr=caps.get_rect()#arr[0] = x, arr[1]=y
             overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0],result["top"][i]+arr[1])
+=======
+            realtext = translate.GetTranslate(tmptext, 'en', 'ko')
+            overlay_screen_1.labeler(realtext,result["left"][i],result["top"][i])
+>>>>>>> 6027ebe63ff8d92dee097633f83a648dc011dfe9
             #overlay_screen_2.labeler(tmptext,result["left"][i],result["top"][i])
             
             #tmptext = NULL
@@ -81,9 +86,12 @@ def while_loop():
         print("overlay_2")
     overlay_switch = not overlay_switch
     """
+<<<<<<< HEAD
     time.sleep(1)
     #print("fucking shit")
     #overlay_screen_1.win.destroy()
+=======
+>>>>>>> 6027ebe63ff8d92dee097633f83a648dc011dfe9
     frame1.after(1000,while_loop)
     
 
