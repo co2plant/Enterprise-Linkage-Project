@@ -18,6 +18,7 @@ class Tesseract_Ocr():
 
         text = pytesseract.image_to_string(screenshot, lang='eng+kor')
         result = pytesseract.image_to_data(screenshot, output_type=Output.DICT) # 테서렉트에서 좌표값 뽑아옴
+        print(result)
         self.str_i = text
         return result
 

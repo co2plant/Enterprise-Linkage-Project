@@ -46,28 +46,33 @@ def button1_pressed():
 #--------------------------------------------------------------------
 
 def while_loop():
+    
     #global overlay_screen_2
-    #global overlay_screen_1
+    global overlay_screen_1
     #global overlay_switch
     overlay_screen_1 = Overlay(frame1)
     #overlay_screen_2 = Overlay(frame2)
     screenshot = caps.get_screenshot()
     result = ocrs.Get_Ocr_Tesseract(screenshot)
-    for i in range(1, len(result["text"])):
+    for i in range(0, len(result["text"])):
         w = result["width"][i]
         h = result["height"][i]
         text = result["text"][i]
         conf = int(result["conf"][i])
     
         # while y++, until another cracter is come
-        if(conf>70):
+        
+        if(conf>90):
             tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
             # realtext = translator.translate(tmptext, dest='ko', src='en')
-            overlay_screen_1.labeler(tmptext,result["left"][i],result["top"][i])
+            arr=caps.get_rect()#arr[0] = x, arr[1]=y
+            overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0],result["top"][i]+arr[1])
             #overlay_screen_2.labeler(tmptext,result["left"][i],result["top"][i])
+            
             #tmptext = NULL
             #tmptext = Translate.Trans(tmptext, eng, kor)
-    """"
+
+    """
     if(overlay_switch == True):
         overlay_screen_1.stop()
         print("overlay_1")
@@ -76,7 +81,10 @@ def while_loop():
         print("overlay_2")
     overlay_switch = not overlay_switch
     """
-    #frame1.after(1000,while_loop)
+    time.sleep(1)
+    #print("fucking shit")
+    #overlay_screen_1.win.destroy()
+    frame1.after(1000,while_loop)
     
 
 
@@ -84,11 +92,16 @@ def while_loop():
 
 
 
+#--------------------------------------------------------------------
 
 frame1 = tkinter.Tk()
+frame1.title("Bridge - OCR Translator")
+frame1.geometry("640x400+100+100")
 #frame2 = tkinter.Tk()
-#global overlay_screen_1
+global overlay_screen_1
 overlay_screen_1 = Overlay(frame1)
+
+#--------------------------------------------------------------------
 #global overlay_screen_2
 #overlay_screen_2 = Overlay(frame2)
 #global overlay_switch

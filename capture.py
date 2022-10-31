@@ -19,7 +19,7 @@ class Capture:
             print(self.hwnd)
             if not self.hwnd:
                 raise Exception('Window not found: {}'.format(window_name))
-        
+        global left, top, right, bottom
         left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
         self.width = right-left
         self.height = bottom-top
@@ -60,7 +60,6 @@ class Capture:
         img = img[...,:3]
         
         img = np.ascontiguousarray(img)
-        
         return img
     
     
@@ -72,6 +71,8 @@ class Capture:
         win32gui.EnumWindows(winEnumHandler, None)
         
     def get_screen_position(self, pos):
+        print(pos[0]+self.offset_x)
+        print(pos[1]+self.offset_y)
         return(pos[0]+self.offset_x, pos[1]+self.offset_y)
     
     def get_screen_minimize(self):
@@ -81,3 +82,6 @@ class Capture:
         elif statusofwindow[1] == win32con.SW_SHOWNORMAL:
             return 1
         
+    def get_rect(self):
+        left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
+        return left, top
