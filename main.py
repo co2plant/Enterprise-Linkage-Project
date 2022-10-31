@@ -62,8 +62,8 @@ def while_loop():
         # while y++, until another cracter is come
         if(conf>70):
             tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
-            # realtext = translator.translate(tmptext, dest='ko', src='en')
-            overlay_screen_1.labeler(tmptext,result["left"][i],result["top"][i])
+            realtext = translate.GetTranslate(tmptext, 'en', 'ko')
+            overlay_screen_1.labeler(realtext,result["left"][i],result["top"][i])
             #overlay_screen_2.labeler(tmptext,result["left"][i],result["top"][i])
             #tmptext = NULL
             #tmptext = Translate.Trans(tmptext, eng, kor)
@@ -76,7 +76,7 @@ def while_loop():
         print("overlay_2")
     overlay_switch = not overlay_switch
     """
-    #frame1.after(1000,while_loop)
+    frame1.after(1000,while_loop)
     
 
 
