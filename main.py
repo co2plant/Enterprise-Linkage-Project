@@ -53,30 +53,25 @@ def while_loop():
     overlay_screen_1 = Overlay(frame1)
     #overlay_screen_2 = Overlay(frame2)
     screenshot = caps.get_screenshot()
-    result = ocrs.Get_Ocr_Tesseract(screenshot)
-    for i in range(0, len(result["text"])):
-        w = result["width"][i]
-        h = result["height"][i]
+    result, str_result = ocrs.Get_Ocr_Tesseract(screenshot)
+    for i in range(1, len(result["text"])):
         text = result["text"][i]
         conf = int(result["conf"][i])
     
         # while y++, until another cracter is come
         
-        if(conf>90):
+        if(conf>70):
             tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
-<<<<<<< HEAD
-            # realtext = translator.translate(tmptext, dest='ko', src='en')
+            print(str_result)
+            tmptext = translate.GetTranslate(tmptext, 'ko', 'en')
             arr=caps.get_rect()#arr[0] = x, arr[1]=y
-            overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0],result["top"][i]+arr[1])
-=======
-            realtext = translate.GetTranslate(tmptext, 'en', 'ko')
-            overlay_screen_1.labeler(realtext,result["left"][i],result["top"][i])
->>>>>>> 6027ebe63ff8d92dee097633f83a648dc011dfe9
+            overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0]+8,result["top"][i]+arr[1]+30, result["width"][i], result["height"][i])
             #overlay_screen_2.labeler(tmptext,result["left"][i],result["top"][i])
             
             #tmptext = NULL
             #tmptext = Translate.Trans(tmptext, eng, kor)
-
+    print(str_result)
+    print(translate.GetTranslate(str_result, 'ko', 'en'))
     """
     if(overlay_switch == True):
         overlay_screen_1.stop()
@@ -86,12 +81,7 @@ def while_loop():
         print("overlay_2")
     overlay_switch = not overlay_switch
     """
-<<<<<<< HEAD
-    time.sleep(1)
-    #print("fucking shit")
     #overlay_screen_1.win.destroy()
-=======
->>>>>>> 6027ebe63ff8d92dee097633f83a648dc011dfe9
     frame1.after(1000,while_loop)
     
 
@@ -120,6 +110,3 @@ overlay_screen_1 = Overlay(frame1)
 frame1.after(1000,while_loop)
 frame1.mainloop()
 
-
-
-    

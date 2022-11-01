@@ -83,5 +83,5 @@ class Capture:
             return 1
         
     def get_rect(self):
-        left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
+        left, top, right, bottom= win32gui.GetWindowRect(self.hwnd)
         return left, top
