@@ -57,8 +57,13 @@ def while_loop():
             #tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
             #tmptext = translate.GetTranslate(tmptext, 'ko', 'en')
             tmptext = " ".join(result["text"][i])
+            #making array
+            #store result[text][i]
             arr=caps.get_rect()#arr[0] = x, arr[1]=y
             overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0]+8,result["top"][i]+arr[1]+30, result["width"][i], result["height"][i])
+        elif():#need to add 
+            #ss = " ".join(array)
+            #labeler(ss, result[])
     print(str_result)
     frame1.after(1000,while_loop)
 
