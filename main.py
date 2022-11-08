@@ -31,6 +31,7 @@ looptime = time.time()
 #------------------------------variable------------------------------
 global overlay_screen_1
 global overlay_screen_2
+array = []
 #--------------------------------------------------------------------
 
 #--------------------------------------------------------------------
@@ -49,22 +50,37 @@ def button1_pressed():
 def while_loop():
     screenshot = caps.get_screenshot()
     result, str_result = ocrs.Get_Ocr_Tesseract(screenshot)
+    minimum_left=10000
+    minimum_top=10000
+    
     for i in range(1, len(result["text"])):
         text = result["text"][i]
         conf = int(result["conf"][i])
+        arr=caps.get_rect()#arr[0] = x, arr[1]=y
+        
     
-        if((conf>70) and (result["left"][i-1]+result["width"][i-1]<result["left"][i])):
+        if(conf>70 and ((result["left"][i-1]+result["width"][i-1]+result["height"][i-1]<result["left"][i]) or result["top"][i-1]+result["height"][i-1]*2 < result["top"][i])):
+            finalresult = " ".join(array)
+            array.clear()
+            
+            finalresult = translate.GetTranslate(finalresult, 'en', 'ko')
+            overlay_screen_1.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], result["height"][i])
+            
+            print(finalresult)
+            print(result["left"][i]-minimum_left+result["width"][i])
+            print(result["top"][i]-minimum_top+result["height"][i])
+            print("----")
+            minimum_left=10000
+            minimum_top=10000
+        elif(conf>70):#need to add 
             #tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
-            #tmptext = translate.GetTranslate(tmptext, 'ko', 'en')
-            tmptext = " ".join(result["text"][i])
-            #making array
-            #store result[text][i]
-            arr=caps.get_rect()#arr[0] = x, arr[1]=y
-            overlay_screen_1.labeler(tmptext,result["left"][i]+arr[0]+8,result["top"][i]+arr[1]+30, result["width"][i], result["height"][i])
-        elif():#need to add 
-            #ss = " ".join(array)
-            #labeler(ss, result[])
-    print(str_result)
+            minimum_left = result["left"][i] if minimum_left > result["left"][i] else minimum_left
+            minimum_top = result["top"][i] if minimum_top > result["top"][i] else minimum_top
+            array.append(result["text"][i])
+            print(minimum_left)
+            print(minimum_top)
+            
+            
     frame1.after(1000,while_loop)
 
 #--------------------------------------------------------------------

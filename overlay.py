@@ -16,11 +16,10 @@ class Overlay():
         self.win.overrideredirect(True) # 작업표시줄 삭제
 
         
-    def labeler(self,text_, x_, y_, width_, height_): # 윈도우창,텍스트,좌표x,좌표y
-        label=tkinter.Label(self.win, text=text_, font=('Times','14'), fg="white", bg="black") #라벨 객체 생성 , bg='black'
+    def labeler(self,text_, x_, y_, width_, height_, fontsize_): # 윈도우창,텍스트,좌표x,좌표y
+        label=tkinter.Label(self.win, text=text_, font=('Times',fontsize_), fg="white", bg="black") #라벨 객체 생성 , bg='black'
         label.place(x=x_,y=y_) # 라벨 위치 설정
-        #label.config(width = width_)
-        #label.config(height = height_)
+        label.configure(anchor="center")
         label.master.wm_attributes("-alpha", "1")
         label.master.lift()
         hWindow = pywintypes.HANDLE(int(label.master.frame(), 16)) # 클릭 무시
