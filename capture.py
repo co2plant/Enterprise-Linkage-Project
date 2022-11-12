@@ -64,10 +64,12 @@ class Capture:
     
     
     @staticmethod
-    def list_window_names():
+    def list_window_names(listbox):
         def winEnumHandler(hwnd, ctx):
             if win32gui.IsWindowVisible(hwnd):
-                print(hex(hwnd), win32gui.GetWindowText(hwnd))
+                str = win32gui.GetWindowText(hwnd)
+                if not(str == ""):
+                    listbox.insert(-1, str)
         win32gui.EnumWindows(winEnumHandler, None)
         
     def get_screen_position(self, pos):

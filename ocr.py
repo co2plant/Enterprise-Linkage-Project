@@ -16,11 +16,6 @@ class Tesseract_Ocr():
     def Get_Ocr_Tesseract(self, screenshot):
         screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2BGR)
 
-        text = pytesseract.image_to_string(screenshot, lang='eng+kor')
+        str_result = pytesseract.image_to_string(screenshot, lang='eng+kor')
         result = pytesseract.image_to_data(screenshot, output_type=Output.DICT) # 테서렉트에서 좌표값 뽑아옴
-        print(result)
-        self.str_i = text
-        return result
-
-    def Get_Ocr_String(self):
-        return self.str_i
+        return result, str_result
