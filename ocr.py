@@ -1,11 +1,8 @@
-import numpy as np
+
 import pytesseract
 import cv2
-import matplotlib.pyplot as plt
-import overlay
-
 from pytesseract import Output
-from overlay import Overlay
+
 
 
 class Tesseract_Ocr():
