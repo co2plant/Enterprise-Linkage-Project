@@ -78,22 +78,23 @@ def while_loop(seleted_str):
         overlay_screen_2 = Overlay(frame2)
     result,str_result = ocrs.Get_Ocr_Tesseract(screenshot)
     for i in range(0, len(result["text"])):
-        
         text = result["text"][i]
         conf = int(result["conf"][i])
-        
-        if(((result["left"][i-1]+result["width"][i-1]+result["height"][i-1]<result["left"][i]) or result["top"][i-1]+result["height"][i-1]*1.2 < result["top"][i]) or i == len(result["text"])):
+        if(((result["left"][i-1]+result["width"][i-1]+result["height"][i-1]<result["left"][i]) 
+            or result["top"][i-1]+result["height"][i-1]*1.2 < result["top"][i]) or i == len(result["text"])):
             finalresult = " ".join(array)
             array.clear()
-            if(finalresult == NULL or len(finalresult) <= 1):
+            if(finalresult == NULL or len(finalresult) <= 1 or  finalresult.isspace() == True):
                 continue
 
             search_text = Csv.serach(finalresult,file_name)
 
             if(search_text == False):
                 temp_text = finalresult
-                finalresult = translate.GetTranslate(finalresult, 'en', 'ko')
-                Csv.saveDictionary(temp_text,finalresult,file_name)
+                if(len(temp_text) > 1):
+                    print(finalresult)
+                    finalresult = translate.GetTranslate(finalresult, 'en', 'ko')
+                    Csv.saveDictionary(temp_text,finalresult,file_name)
                 temp_text = NULL
             else:
                 finalresult = search_text
@@ -101,9 +102,11 @@ def while_loop(seleted_str):
             search_text = NULL
             if(len(finalresult) >= 1):
                 if(overlay_switch == False):
-                    overlay_screen_1.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
+                    overlay_screen_1.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, 
+                        result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
                 else:
-                    overlay_screen_2.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
+                    overlay_screen_2.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, 
+                        result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
             minimum_left=10000
             minimum_top=10000
         elif(conf>70):#need to add 

@@ -9,7 +9,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=[],
+    hiddenimports=['os','tkinter','pytesseract','csv','numpy','win32gui', 'win32ui', 'win32con','Output','pytesseract','cv2','json','urllib.request','pywintypes','GetSystemMetrics'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -26,7 +26,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='main',
+    name='Bridge',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -37,6 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='./icon/icon.ico',
 )
 coll = COLLECT(
     exe,
