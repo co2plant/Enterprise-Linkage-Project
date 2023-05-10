@@ -1,7 +1,7 @@
 import os
 import sys
 import urllib.request
-import jsons
+import json
 
 client_id = ""
 client_secret = ""

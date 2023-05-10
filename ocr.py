@@ -1,9 +1,6 @@
-
 import pytesseract
 import cv2
 from pytesseract import Output
-
-
 
 class Tesseract_Ocr():
         
