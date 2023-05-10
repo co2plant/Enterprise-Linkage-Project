@@ -1,10 +1,10 @@
 import os
 import sys
 import urllib.request
-import json
+import jsons
 
-client_id = "vJTrCnvRmexX3WFt1YqR"
-client_secret = "nKpbRHRW0r"
+client_id = ""
+client_secret = ""
 
 def GetTranslate(inputtext, native_language, target_language):
     encText = urllib.parse.quote(inputtext)
