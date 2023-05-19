@@ -6,7 +6,7 @@ class Overlay():
     height = 0
     def __init__(self,window):
         self.win = tkinter.Toplevel(window,relief="solid",bd = 2) #윈도우 객체 생성
-        self.win.config(bg = "#add123") #윈도우 백그라운드 컬러 설정
+        self.win.config(bg = "#add123") #윈도우 백그라운드 컬러 설정 ##add123
         self.win.config(highlightbackground= "#add123")
         #self.win.geometry(str(width)+"x"+str(heigh)+"+"+str(x)+"+"+str(y))
         self.win.wm_attributes('-transparentcolor','#add123') # 설정한 컬러 투명화

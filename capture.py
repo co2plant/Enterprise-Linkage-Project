@@ -24,9 +24,9 @@ class Capture:
         self.width = right-left
         self.height = bottom-top
         
-        border_pixels = 8
-        titlebar_pixels= 30
-        self.width = self.width - (border_pixels * 2)
+        border_pixels = 1
+        titlebar_pixels= 10
+        self.width = self.width - border_pixels #* 2)
         self.height = self.height - titlebar_pixels - border_pixels
         self.cropped_x = border_pixels
         self.cropped_y = titlebar_pixels
@@ -70,6 +70,15 @@ class Capture:
                 str = win32gui.GetWindowText(hwnd)
                 if not(str == ""):
                     listbox.insert(-1, str)
+        win32gui.EnumWindows(winEnumHandler, None)
+
+    @staticmethod
+    def list_window_names_array(arr):
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                str = win32gui.GetWindowText(hwnd)
+                if not(str == ""):
+                    arr.append(str)
         win32gui.EnumWindows(winEnumHandler, None)
         
     def get_screen_position(self, pos):
