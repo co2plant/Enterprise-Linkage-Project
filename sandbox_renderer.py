@@ -1,14 +1,28 @@
 import customtkinter
 import os
+import numpy as np
+import tkinter
 from PIL import Image
 from overlay import Overlay
 from capture import Capture
-import numpy as np
+from savecsv import SaveCsv
+from asyncio.windows_events import NULL
+from ocr import Tesseract_Ocr
+from translate import Translator_Papago
 
 #button color : 3a7ebf
 
+global overlay_screen
+global Caps
+global Ocrs
+global Scsv
+global Trans
+global S_dict
+
 class App(customtkinter.CTk):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    window_name = None
+    toplevel_window = None
 
     def __init__(self):
         super().__init__()
@@ -77,6 +91,8 @@ class App(customtkinter.CTk):
             print("combobox dropdown clicked:", choice)
             if(self.home_frame_start_button.cget("state") == "disabled"):
                 self.home_frame_start_button.configure(state="normal")
+            self.window_name=choice
+            
 
         combobox_var = customtkinter.StringVar(value="You Have to click Detect Window Button")  
         self.home_frame_combobox = customtkinter.CTkComboBox(master=self.home_frame,
@@ -142,10 +158,16 @@ class App(customtkinter.CTk):
 
     def home_frame_start_button_clicked(self):
         if self.toplevel_window is None:
-            self.toplevel_window = Overlay(self)  # create window if its None or destroyed
+            self.toplevel_window = Overlay()  # create window if its None or destroyed
+            self.toplevel_window.win.after(1000,while_loop,self.window_name)
+            #while_loop(self.window_name)
+            self.toplevel_window.win.mainloop()
         else:
             self.toplevel_window.win.destroy()
-            self.toplevel_window = Overlay(self)  # if window exists focus it
+            self.toplevel_window = Overlay()  # if window exists focus it
+            self.toplevel_window.win.after(1000,while_loop,self.window_name)
+            #while_loop(self.window_name)
+            self.toplevel_window.win.mainloop()
 
     def home_frame_detect_button_clicked(self):
         print(f"label button frame clicked")
@@ -153,15 +175,85 @@ class App(customtkinter.CTk):
         Capture.list_window_names(combobox_value)
         self.home_frame_combobox.configure(values=combobox_value)
         self.home_frame_combobox.set(combobox_value[0])
+
 ########
 ########
 
-def while_loop(selected_str):
-    file_name = ""
+def on_closing():
+    if not app.toplevel_window is None:
+        app.toplevel_window.win.destroy()
+    app.destroy()
 
+########
+########
+
+def while_loop(selected_window_name):
+    print("Call While loop-list declare")
+    
+    S_dict = list()
+    detected_word_array = []
+    be_verb = ['am','be','are','is','was','were','was','i','you','we','he','she','it','we','they','will', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ' ', 'your', 'my', 'me', 'mine', 'yours'] # Be 동사는 단어장에 안들어감
+    
+    if not selected_window_name is None:
+        print("Call While loop-checking window name")
+        Caps=Capture(selected_window_name)
+        Scsv=SaveCsv(selected_window_name)
+        Trans=Translator_Papago()
+        Ocrs=Tesseract_Ocr()
+
+    else:
+        print("Call While loop-checking window name-fail")
+        return
+
+    print("Call While loop-start process")
+    S_dict.clear()
+    arr=Caps.get_rect()
+    screenshot = Caps.get_screenshot()
+    minimum_left=10000
+    minimum_top=10000
+    result,str_result = Ocrs.Get_Ocr_Tesseract(screenshot)
+
+    for i in range(0, len(result["text"])):
+        text = result["text"][i]
+        conf = int(result["conf"][i])
+        print("Call While loop-first for")
+        if(((result["left"][i-1]+result["width"][i-1]+result["height"][i-1]<result["left"][i]) 
+            or result["top"][i-1]+result["height"][i-1]*1.2 < result["top"][i]) or i == len(result["text"])):
+            finalresult = " ".join(detected_word_array)
+            detected_word_array.clear()
+            if(finalresult == NULL or len(finalresult) <= 1 or  finalresult.isspace() == True):
+                continue
+            print("Call While loop-2 if")
+
+            search_text = Scsv.serach(finalresult)
+            if(search_text == False):
+                temp_text = finalresult
+                if(len(temp_text) > 1):
+                    print(finalresult)
+                    finalresult = Trans.GetTranslate(finalresult, 'en', 'ko')
+                    Scsv.saveDictionary(temp_text,finalresult)
+                temp_text = NULL
+            else:
+                finalresult = search_text
+            print("Call While loop-3 if")
+            search_text = NULL
+            if(len(finalresult) >= 1):
+                app.toplevel_window.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, 
+                    result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
+            minimum_left=10000
+            minimum_top=10000
+        elif(conf>70):#need to add 
+            tmptext = "".join([c if ord(c)<128 else "" for c in text]).strip()
+            S_dict.append(tmptext)
+            minimum_left = result["left"][i] if minimum_left > result["left"][i] else minimum_left
+            minimum_top = result["top"][i] if minimum_top > result["top"][i] else minimum_top
+            detected_word_array.append(tmptext)
+    print("Call While loop-update")
+    app.toplevel_window.win.after(1000,while_loop, app.window_name)
 
 ########
 ########
 if __name__ == "__main__":
     app = App()
+    app.protocol("WM_DELETE_WINDOW", on_closing)
     app.mainloop()

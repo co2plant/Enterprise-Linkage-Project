@@ -2,7 +2,7 @@ import numpy as np
 import win32gui, win32ui, win32con
 
 class Capture:
-    
+    selected_window_name=None
     width = 0
     height = 0
     hwnd = None
@@ -15,6 +15,7 @@ class Capture:
         if window_name is None:
             self.hwnd = win32gui.GetDesktopWindow()
         else :
+            self.selected_window_name = window_name
             self.hwnd = win32gui.FindWindow(None, window_name)
             print(self.hwnd)
             if not self.hwnd:
@@ -39,6 +40,7 @@ class Capture:
         self.offset_y = top + self.cropped_y
         
     def get_screenshot(self):
+        print("capture - get_screenshot", self, self.selected_window_name)
         wDC = win32gui.GetWindowDC(self.hwnd)
         dcObj = win32ui.CreateDCFromHandle(wDC)
         cDC = dcObj.CreateCompatibleDC()

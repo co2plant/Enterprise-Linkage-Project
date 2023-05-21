@@ -3,19 +3,22 @@ import csv
 import os
 
 class SaveCsv:
+    file_name=None
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    def __init__(self, selected_window_name):
+        self.file_name = selected_window_name
     
-    def saveDictionary(self, input_text, translated_text,file_name):
+    def saveDictionary(self, input_text, translated_text):
         #now = datetime.now()
-        f = open("./CSV/"+file_name+".csv", 'a', encoding='utf-8', newline='')
+        f = open("./CSV/"+self.file_name+".csv", 'a', encoding='utf-8', newline='')
         csvwriter = csv.writer(f)
         csvwriter.writerow([input_text, translated_text])
         f.close()
         
-    def serach(self,input_text,file_name):
-        if not os.path.isfile("./CSV/"+file_name+".csv"):
-            self.saveDictionary("------","------",file_name)
-        with open("./CSV/"+file_name+".csv", newline='',encoding='UTF8') as f:
+    def serach(self,input_text):
+        if not os.path.isfile("./CSV/"+self.file_name+".csv"):
+            self.saveDictionary("------","------")
+        with open("./CSV/"+self.file_name+".csv", newline='',encoding='UTF8') as f:
             reader = csv.reader(f)
             data = list(reader)
         if(len(data) == 0):
