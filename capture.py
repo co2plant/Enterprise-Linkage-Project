@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 import win32gui, win32ui, win32con
 
 class Capture:
@@ -10,6 +11,7 @@ class Capture:
     cropped_y = 0
     offset_x = 0
     offset_y = 0
+    before_img = None
     
     def __init__(self, window_name=None):
         if window_name is None:
@@ -25,8 +27,8 @@ class Capture:
         self.width = right-left
         self.height = bottom-top
         
-        border_pixels = 1
-        titlebar_pixels= 10
+        border_pixels = 0
+        titlebar_pixels = 0
         self.width = self.width - border_pixels #* 2)
         self.height = self.height - titlebar_pixels - border_pixels
         self.cropped_x = border_pixels
@@ -40,7 +42,6 @@ class Capture:
         self.offset_y = top + self.cropped_y
         
     def get_screenshot(self):
-        print("capture - get_screenshot", self, self.selected_window_name)
         wDC = win32gui.GetWindowDC(self.hwnd)
         dcObj = win32ui.CreateDCFromHandle(wDC)
         cDC = dcObj.CreateCompatibleDC()
@@ -60,10 +61,11 @@ class Capture:
         win32gui.DeleteObject(dataBitMap.GetHandle())
         
         img = img[...,:3]
-        
+
         img = np.ascontiguousarray(img)
+        cv2.imwrite("images/img1.png", img)
+        cv2.destroyAllWindows()
         return img
-    
     
     @staticmethod
     def list_window_names(listbox):

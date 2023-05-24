@@ -37,12 +37,12 @@ class App(customtkinter.CTk):
         # load images with light and dark mode image
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "images")
         self.logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "main_icon.png")), size=(32, 32))
-        self.large_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "Lorem.png")), size=(500, 300))
+        self.large_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "img1.png")), size=(500, 300))
         self.image_icon_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "Lorem.png")), size=(20, 20))
         self.home_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "main_icon.png")),
                                                  dark_image=Image.open(os.path.join(image_path, "main_icon.png")), size=(20, 20))
-        self.chat_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "Lorem.png")),
-                                                 dark_image=Image.open(os.path.join(image_path, "Lorem.png")), size=(20, 20))
+        self.chat_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "main_icon.png")),
+                                                 dark_image=Image.open(os.path.join(image_path, "main_icon.png")), size=(20, 20))
         self.setting_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "setting_icon.png")),
                                                      dark_image=Image.open(os.path.join(image_path, "setting_icon.png")), size=(20, 20))
 
@@ -91,7 +91,9 @@ class App(customtkinter.CTk):
             print("combobox dropdown clicked:", choice)
             if(self.home_frame_start_button.cget("state") == "disabled"):
                 self.home_frame_start_button.configure(state="normal")
+            #self.large_test_image=Capture()
             self.window_name=choice
+            
             
 
         combobox_var = customtkinter.StringVar(value="You Have to click Detect Window Button")  
@@ -160,13 +162,11 @@ class App(customtkinter.CTk):
         if self.toplevel_window is None:
             self.toplevel_window = Overlay()  # create window if its None or destroyed
             self.toplevel_window.win.after(1000,while_loop,self.window_name)
-            #while_loop(self.window_name)
             self.toplevel_window.win.mainloop()
         else:
             self.toplevel_window.win.destroy()
             self.toplevel_window = Overlay()  # if window exists focus it
             self.toplevel_window.win.after(1000,while_loop,self.window_name)
-            #while_loop(self.window_name)
             self.toplevel_window.win.mainloop()
 
     def home_frame_detect_button_clicked(self):
@@ -238,7 +238,7 @@ def while_loop(selected_window_name):
             print("Call While loop-3 if")
             search_text = NULL
             if(len(finalresult) >= 1):
-                app.toplevel_window.labeler(finalresult, minimum_left+arr[0]+8, minimum_top+arr[1]+30, 
+                app.toplevel_window.labeler(finalresult, minimum_left+arr[0], minimum_top+arr[1], 
                     result["left"][i]-minimum_left+result["width"][i], result["top"][i]-minimum_top+result["height"][i], 11)
             minimum_left=10000
             minimum_top=10000
@@ -249,6 +249,7 @@ def while_loop(selected_window_name):
             minimum_top = result["top"][i] if minimum_top > result["top"][i] else minimum_top
             detected_word_array.append(tmptext)
     print("Call While loop-update")
+    app.toplevel_window.win.update()
     app.toplevel_window.win.after(1000,while_loop, app.window_name)
 
 ########
