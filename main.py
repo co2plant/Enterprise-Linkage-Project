@@ -211,7 +211,7 @@ def while_loop(selected_window_name):
     screenshot = Caps.get_screenshot()
     minimum_left=10000
     minimum_top=10000
-    result,str_result = Ocrs.Get_Ocr_Tesseract(screenshot)
+    result,str_result = Ocrs.get_ocr_tesseract(screenshot)
 
     for i in range(0, len(result["text"])):
         text = result["text"][i]
