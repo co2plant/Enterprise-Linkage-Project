@@ -1,25 +1,23 @@
-import os
-import sys
 import urllib.request
 import json
 
-class Translator_Papago:
-    client_id='QTdhFVd5ysueemMh5hQa'
-    client_secret='8MaeRBtbdt'
+class TranslatorPapago:
+    client_id=''
+    client_secret=''
 
     def __init__(self):
-        self.client_id = "QTdhFVd5ysueemMh5hQa"
-        self.client_secret = "8MaeRBtbdt"
+        self.client_id = ""
+        self.client_secret = ""
 
-    def setClient_Id(self, client_id_input):
+    def set_client_id(self, client_id_input):
         self.client_id = client_id_input
 
-    def setClient_Secret(self, client_secret_input):
+    def set_client_secret(self, client_secret_input):
         self.client_secret = client_secret_input
 
-    def GetTranslate(self, inputtext, native_language, target_language):
+    def get_translate(self, input_text, native_language, target_language):
         print("Call translate - GetTranslate")
-        encText = urllib.parse.quote(inputtext)
+        encText = urllib.parse.quote(input_text)
         data = "source="+native_language+"&target="+target_language+"&text="+encText
         url = "https://openapi.naver.com/v1/papago/n2mt"
         try:
@@ -29,14 +27,14 @@ class Translator_Papago:
         except :
             print("no license")
         response = urllib.request.urlopen(request, data=data.encode("utf-8"))
-        rescode = response.getcode()
-        if(rescode==200):
+        response_code = response.getcode()
+        if(response_code==200):
             response_body = response.read()
             decode = json.loads(response_body.decode('utf-8'))    
             result = decode['message']['result']['translatedText']    
             return result
         else:
-            print("Error Code:" + rescode)
+            print("Error Code:" + response_code)
 """
     def readReferenceInfo(directory):
         try:

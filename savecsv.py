@@ -8,16 +8,16 @@ class SaveCsv:
     def __init__(self, selected_window_name):
         self.file_name = selected_window_name
     
-    def saveDictionary(self, input_text, translated_text):
+    def save_dictionary(self, input_text, translated_text):
         #now = datetime.now()
         f = open("./CSV/"+self.file_name+".csv", 'a', encoding='utf-8', newline='')
         csvwriter = csv.writer(f)
         csvwriter.writerow([input_text, translated_text])
         f.close()
         
-    def serach(self,input_text):
+    def search(self,input_text):
         if not os.path.isfile("./CSV/"+self.file_name+".csv"):
-            self.saveDictionary("------","------")
+            self.save_dictionary("------","------")
         with open("./CSV/"+self.file_name+".csv", newline='',encoding='UTF8') as f:
             reader = csv.reader(f)
             data = list(reader)

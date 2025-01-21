@@ -1,6 +1,4 @@
-import tkinter, win32api, win32con, pywintypes
-from win32api import GetSystemMetrics
-import os
+import win32api, win32con, pywintypes
 import tkinter
 
 
